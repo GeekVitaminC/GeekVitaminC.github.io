@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.1.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.1.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.1.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '6.1.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="Linux Vim 配置 12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717273747576777879808182838485&amp;quot; All system-wide de">
+<meta name="keywords" content="algorithm">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Vim 配置">
+<meta property="og:url" content="http://yoursite.com/src/uncategorized/Vim 配置/index.html">
+<meta property="og:site_name" content="VitaminC的小站">
+<meta property="og:description" content="Linux Vim 配置 12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717273747576777879808182838485&amp;quot; All system-wide de">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-04-30T06:54:28.168Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Vim 配置">
+<meta name="twitter:description" content="Linux Vim 配置 12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717273747576777879808182838485&amp;quot; All system-wide de">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/src/uncategorized/Vim 配置/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Vim 配置 | VitaminC的小站</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">VitaminC的小站</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">时光慢慢走</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />Home</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />About</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />Tags</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />Categories</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />Archives</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/src/uncategorized/Vim 配置/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="GeekVitaminC">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="VitaminC的小站">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Vim 配置
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2018-04-22 22:31:48" itemprop="dateCreated datePublished" datetime="2018-04-22T22:31:48+08:00">2018-04-22</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2018-04-30 14:54:28" itemprop="dateModified" datetime="2018-04-30T14:54:28+08:00">2018-04-30</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Linux-Vim-配置"><a href="#Linux-Vim-配置" class="headerlink" title=" Linux Vim 配置 "></a><a href="https://blog.csdn.net/kissacm/article/details/78349287" target="_blank" rel="noopener"> Linux Vim 配置 </a></h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br></pre></td><td class="code"><pre><span class="line">&quot; All system-wide defaults are set in $VIMRUNTIME/debian.vim and sourced by</span><br><span class="line">&quot; the call to :runtime you can find below.  If you wish to change any of those</span><br><span class="line">&quot; settings, you should do it in this file (/etc/vim/vimrc), since debian.vim</span><br><span class="line">&quot; will be overwritten everytime an upgrade of the vim packages is performed.</span><br><span class="line">&quot; It is recommended to make changes after sourcing debian.vim since it alters</span><br><span class="line">&quot; the value of the &apos;compatible&apos; option.</span><br><span class="line"></span><br><span class="line">&quot; This line should not be removed as it ensures that various options are</span><br><span class="line">&quot; properly set to work with the Vim-related packages available in Debian.</span><br><span class="line">runtime! debian.vim</span><br><span class="line"></span><br><span class="line">&quot; Uncomment the next line to make Vim more Vi-compatible</span><br><span class="line">&quot; NOTE: debian.vim sets &apos;nocompatible&apos;.  Setting &apos;compatible&apos; changes numerous</span><br><span class="line">&quot; options, so any other options should be set AFTER setting &apos;compatible&apos;.</span><br><span class="line">&quot;set compatible</span><br><span class="line"></span><br><span class="line">&quot; Vim5 and later versions support syntax highlighting. Uncommenting the next</span><br><span class="line">&quot; line enables syntax highlighting by default.</span><br><span class="line">if has(&quot;syntax&quot;)</span><br><span class="line">  syntax on</span><br><span class="line">endif</span><br><span class="line"></span><br><span class="line">&quot; If using a dark background within the editing area and syntax highlighting</span><br><span class="line">&quot; turn on this option as well</span><br><span class="line">set background=dark</span><br><span class="line"></span><br><span class="line">&quot; Uncomment the following to have Vim jump to the last position when</span><br><span class="line">&quot; reopening a file</span><br><span class="line">&quot;if has(&quot;autocmd&quot;)</span><br><span class="line">&quot;  au BufReadPost * if line(&quot;&apos;\&quot;&quot;) &gt; 1 &amp;&amp; line(&quot;&apos;\&quot;&quot;) &lt;= line(&quot;$&quot;) | exe &quot;normal! g&apos;\&quot;&quot; | endif</span><br><span class="line">&quot;endif</span><br><span class="line"></span><br><span class="line">&quot; Uncomment the following to have Vim load indentation rules and plugins</span><br><span class="line">&quot; according to the detected filetype.</span><br><span class="line">&quot;if has(&quot;autocmd&quot;)</span><br><span class="line">&quot;  filetype plugin indent on</span><br><span class="line">&quot;endif</span><br><span class="line"></span><br><span class="line">&quot; The following are commented out as they cause vim to behave a lot</span><br><span class="line">&quot; differently from regular Vi. They are highly recommended though.</span><br><span class="line">&quot;set showcmd        &quot; Show (partial) command in status line.</span><br><span class="line">&quot;set showmatch      &quot; Show matching brackets.</span><br><span class="line">&quot;set ignorecase     &quot; Do case insensitive matching</span><br><span class="line">&quot;set smartcase      &quot; Do smart case matching</span><br><span class="line">&quot;set incsearch      &quot; Incremental search</span><br><span class="line">&quot;set autowrite      &quot; Automatically save before commands like :next and :make</span><br><span class="line">&quot;set hidden     &quot; Hide buffers when they are abandoned</span><br><span class="line">&quot;set mouse=a        &quot; Enable mouse usage (all modes)</span><br><span class="line"></span><br><span class="line">&quot; Source a global configuration file if available</span><br><span class="line">if filereadable(&quot;/etc/vim/vimrc.local&quot;)</span><br><span class="line">  source /etc/vim/vimrc.local</span><br><span class="line">endif</span><br><span class="line"></span><br><span class="line">set ai                          &quot; 自动缩进，新行与前面的行保持—致的自动空格</span><br><span class="line">set aw                        &quot; 自动写，转入shell或使用：n编辑其他文件时，当前的缓冲区被写入</span><br><span class="line">set flash                     &quot; 在出错处闪烁但不呜叫(缺省)</span><br><span class="line">set ic                          &quot; 在查询及模式匹配时忽赂大小写</span><br><span class="line">set nu        </span><br><span class="line">set number                &quot; 屏幕左边显示行号</span><br><span class="line">set showmatch          &quot; 显示括号配对，当键入“]”“)”时，高亮度显示匹配的括号</span><br><span class="line">set showmode           &quot; 处于文本输入方式时加亮按钮条中的模式指示器</span><br><span class="line">set showcmd             &quot; 在状态栏显示目前所执行的指令，未完成的指令片段亦会显示出来</span><br><span class="line">set warn        &quot; 对文本进行了新的修改后，离开shell时系统给出显示(缺省)</span><br><span class="line">set ws               &quot; 在搜索时如到达文件尾则绕回文件头继续搜索</span><br><span class="line">set wrap        &quot; 长行显示自动折行</span><br><span class="line">colorscheme ron &quot; 设定背景</span><br><span class="line">filetype plugin on        &quot; 自动识别文件类型，自动匹配对应的, “文件类型Plugin.vim”文件，使用缩进定义文件</span><br><span class="line">set autoindent            &quot; 设置自动缩进：即每行的缩进值与上一行相等；使用 noautoindent 取消设置</span><br><span class="line">set cindent                 &quot; 以C/C++的模式缩进</span><br><span class="line">set noignorecase       &quot; 默认区分大小写</span><br><span class="line">set ruler                     &quot; 打开状态栏标尺</span><br><span class="line">set scrolloff=5            &quot; 设定光标离窗口上下边界 5 行时窗口自动滚动</span><br><span class="line">set shiftwidth=4          &quot; 设定 &lt;&lt; 和 &gt;&gt; 命令移动时的宽度为 4</span><br><span class="line">set softtabstop=4       &quot; 使得按退格键时可以一次删掉 4 个空格,不足 4 个时删掉所有剩下的空格）</span><br><span class="line">set tabstop=4             &quot; 设定 tab 长度为 4</span><br><span class="line">set wrap                     &quot; 自动换行显示</span><br><span class="line">syntax enable</span><br><span class="line">syntax on                    &quot; 自动语法高亮</span><br><span class="line">inoremap ( ()&lt;ESC&gt;i</span><br><span class="line">inoremap [ []&lt;ESC&gt;i</span><br><span class="line">inoremap &#123; &#123;&#125;&lt;ESC&gt;i</span><br><span class="line">inoremap &quot; &quot;&quot;&lt;ESC&gt;i</span><br><span class="line">inoremap &apos; &apos;&apos;&lt;ESC&gt;i</span><br><span class="line">inoremap &#123; &#123;&lt;CR&gt;&#125;&lt;ESC&gt;kA&lt;CR&gt;</span><br></pre></td></tr></table></figure>
+<p>想更换VIM配色打朋友可以查看自己vim<em>/colors，下面打 ` </em>.vim ` 文件即可更改对应的主题。</p>
+<p>虽然很好用，可是我用SpaceVim，(逃…</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/algorithm/" rel="tag"># algorithm</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/src/uncategorized/LightOJ-1331/" rel="next" title="LightOJ-1331">
+                <i class="fa fa-chevron-left"></i> LightOJ-1331
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/src/综述/hello-world/" rel="prev" title="HomePage">
+                HomePage <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">GeekVitaminC</p>
+              <p class="site-description motion-element" itemprop="description">思考者</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">184</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">8</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">66</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/GeekVitaminC" target="_blank" title="GitHub"><i class="fa fa-fw fa-globe"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="GeekVitaminC@outlook.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-globe"></i>E-Mail</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Linux-Vim-配置"><span class="nav-number">1.</span> <span class="nav-text"> Linux Vim 配置 </span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">GeekVitaminC</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/theme-next/hexo-theme-next">NexT.Mist</a> v6.1.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.1.0"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
