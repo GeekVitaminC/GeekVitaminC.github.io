@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.1.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.1.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.1.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '6.1.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="蚁群算法实验————解决TSP问题 本报告使用蚁群算法解决TSP问题  1. 实验背景旅行商问题，即TSP问题（Traveling Salesman Problem），也叫旅行推销员问题、货郎担问题，是数学领域中著名问题之一。假设有一个旅行商人要拜访n个城市，他必须选择所要走的路径，路径的限制是每个城市只能拜访一次，而且最后要回到原来出发的城市。路径的选择目标是要求得的路径路程为所有路径之中的最小">
+<meta name="keywords" content="ACO,Computation-Intelligence">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ACO_TSP">
+<meta property="og:url" content="http://yoursite.com/src/uncategorized/ACO-TSP/index.html">
+<meta property="og:site_name" content="VitaminC的小站">
+<meta property="og:description" content="蚁群算法实验————解决TSP问题 本报告使用蚁群算法解决TSP问题  1. 实验背景旅行商问题，即TSP问题（Traveling Salesman Problem），也叫旅行推销员问题、货郎担问题，是数学领域中著名问题之一。假设有一个旅行商人要拜访n个城市，他必须选择所要走的路径，路径的限制是每个城市只能拜访一次，而且最后要回到原来出发的城市。路径的选择目标是要求得的路径路程为所有路径之中的最小">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-05-18T17:37:09.604Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ACO_TSP">
+<meta name="twitter:description" content="蚁群算法实验————解决TSP问题 本报告使用蚁群算法解决TSP问题  1. 实验背景旅行商问题，即TSP问题（Traveling Salesman Problem），也叫旅行推销员问题、货郎担问题，是数学领域中著名问题之一。假设有一个旅行商人要拜访n个城市，他必须选择所要走的路径，路径的限制是每个城市只能拜访一次，而且最后要回到原来出发的城市。路径的选择目标是要求得的路径路程为所有路径之中的最小">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/src/uncategorized/ACO-TSP/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>ACO_TSP | VitaminC的小站</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">VitaminC的小站</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">时光慢慢走</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />Home</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />About</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />Tags</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />Categories</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />Archives</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/src/uncategorized/ACO-TSP/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="GeekVitaminC">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="VitaminC的小站">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">ACO_TSP
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2018-05-10 02:35:53" itemprop="dateCreated datePublished" datetime="2018-05-10T02:35:53+08:00">2018-05-10</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2018-05-19 01:37:09" itemprop="dateModified" datetime="2018-05-19T01:37:09+08:00">2018-05-19</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="蚁群算法实验————解决TSP问题"><a href="#蚁群算法实验————解决TSP问题" class="headerlink" title="蚁群算法实验————解决TSP问题"></a>蚁群算法实验————解决TSP问题</h2><blockquote>
+<p>本报告使用蚁群算法解决TSP问题</p>
+</blockquote>
+<h3 id="1-实验背景"><a href="#1-实验背景" class="headerlink" title="1. 实验背景"></a>1. 实验背景</h3><p>旅行商问题，即TSP问题（Traveling Salesman Problem），也叫旅行推销员问题、货郎担问题，是数学领域中著名问题之一。假设有一个旅行商人要拜访n个城市，他必须选择所要走的路径，路径的限制是每个城市只能拜访一次，而且最后要回到原来出发的城市。路径的选择目标是要求得的路径路程为所有路径之中的最小值。</p>
+<p>旅行推销员问题是图论中最著名的问题之一，即“已给一个n个点的完全图，每条边都有一个长度，求总长度最短的经过每个顶点正好一次的封闭回路”。Edmonds，Cook和Karp等人发现，这批难题有一个值得注意的性质，对其中一个问题存在有效算法时，每个问题都会有有效算法。</p>
+<p>迄今为止，这类问题中没有一个找到有效算法。倾向于接受NP完全问题（NP-Complete或NPC）和NP难题（NP-Hard或NPH）不存在有效算法这一猜想，认为这类问题的大型实例不能用精确算法求解，必须寻求这类问题的有效的近似算法。</p>
+<h3 id="2-蚁群算法"><a href="#2-蚁群算法" class="headerlink" title="2. 蚁群算法"></a>2. 蚁群算法</h3><h4 id="2-1-蚁群算法简介"><a href="#2-1-蚁群算法简介" class="headerlink" title="2.1 蚁群算法简介"></a>2.1 蚁群算法简介</h4><p>蚁群系统(Ant System或Ant Colony System)是由意大利学者Dorigo、Maniezzo等人于20世纪90年代首先提出来的。他们在研究蚂蚁觅食的过程中，发现单个蚂蚁的行为比较简单，但是蚁群整体却可以体现一些智能的行为。例如蚁群可以在不同的环境下，寻找最短到达食物源的路径。这是因为蚁群内的蚂蚁可以通过某种信息机制实现信息的传递。后又经进一步研究发现，蚂蚁会在其经过的路径上释放一种可以称之为“信息素”的物质，蚁群内的蚂蚁对“信息素”具有感知能力，它们会沿着“信息素”浓度较高路径行走，而每只路过的蚂蚁都会在路上留下“信息素”，这就形成一种类似正反馈的机制，这样经过一段时间后，整个蚁群就会沿着最短路径到达食物源了。</p>
+<p>将蚁群算法应用于解决优化问题的基本思路为：用蚂蚁的行走路径表示待优化问题的可行解，整个蚂蚁群体的所有路径构成待优化问题的解空间。路径较短的蚂蚁释放的信息素量较多，随着时间的推进，较短的路径上累积的信息素浓度逐渐增高，选择该路径的蚂蚁个数也愈来愈多。最终，整个蚂蚁会在正反馈的作用下集中到最佳的路径上，此时对应的便是待优化问题的最优解。</p>
+<h4 id="2-2-蚁群算法结合TSP"><a href="#2-2-蚁群算法结合TSP" class="headerlink" title="2.2 蚁群算法结合TSP"></a>2.2 蚁群算法结合TSP</h4><p>控制蚁群算法走向的关键是信息素，信息素类似遗传算法的适应性函数，类似退火算法的评价函数，影响着其中一只蚂蚁的下一步的选择。</p>
+<ol>
+<li>蚂蚁：类似遗传算法的染色体，就是一条解，在tsp问题中蚂蚁的路径就是tsp的解。</li>
+<li>信息素：评价函数，与路径成反比</li>
+<li>蚂蚁数量：一次迭代有多少只蚂蚁在跑（注意不是一起跑，而是先后放上一只蚂蚁）</li>
+<li>迭代次数T：所有蚂蚁跑完视为一次迭代周期。</li>
+</ol>
+<h3 id="3-算法设计流程"><a href="#3-算法设计流程" class="headerlink" title="3. 算法设计流程"></a>3. 算法设计流程</h3><h4 id="3-1-算法实现过程"><a href="#3-1-算法实现过程" class="headerlink" title="3.1 算法实现过程"></a>3.1 算法实现过程</h4><p>使用python3作为设计语言，其中本次使用的版本是python3.6，其中使用了常规的的库有：</p>
+<ol>
+<li>time</li>
+<li>copy</li>
+<li>random</li>
+<li>math</li>
+</ol>
+<p>使用的非内置库有：</p>
+<ol>
+<li>numpy</li>
+<li>matplotlib</li>
+</ol>
+<h5 id="3-1-1-算法公式"><a href="#3-1-1-算法公式" class="headerlink" title="3.1.1 算法公式"></a>3.1.1 算法公式</h5><blockquote>
+<p>在算法中使用的中重要公式有：</p>
+<ol>
+<li>计算信息量</li>
+<li>信息量更新</li>
+</ol>
+</blockquote>
+<h6 id="3-1-1-1-计算信息量"><a href="#3-1-1-1-计算信息量" class="headerlink" title="3.1.1.1 计算信息量"></a>3.1.1.1 计算信息量</h6><p>计算信息量<br>$$P_{ij}^k(t) = \frac{\tau_{ij}^\alpha(t)\eta_{ij}^{\beta}(t)}{\sum_{l \in A_k}\tau_{il}^\alpha(t)\eta_{il}^{\beta}(t)}$$<br>其中:</p>
+<ol>
+<li>$P_{ij}^k$表示蚂蚁选择的概率</li>
+<li>$A_k$第k个蚂蚁的可到达集合</li>
+<li>$\eta_{ij} = \frac{1}{d_{ij}}$,$d_{ij}$表示图上两点距离</li>
+<li>$\tau_{ij}$表示信息素</li>
+</ol>
+<h6 id="3-1-1-2-信息量更新"><a href="#3-1-1-2-信息量更新" class="headerlink" title="3.1.1.2 信息量更新"></a>3.1.1.2 信息量更新</h6><p>信息量的更新</p>
+<ol>
+<li>信息量计算<br>$$\tau_{ij}(t+n) = (1 - \rho)\tau_{ij}(t) + \Delta\tau_{ij}(t)$$</li>
+<li>蚂蚁提供的信息量<br>$$\Delta\tau_{ij}(t) = \sum_{k=1}^{M}\Delta\tau_{ij}^k(t)$$</li>
+</ol>
+<h5 id="3-1-2-算法设计"><a href="#3-1-2-算法设计" class="headerlink" title="3.1.2 算法设计"></a>3.1.2 算法设计</h5><ol>
+<li>图类<br>首先给出一个单点的类：<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Point</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,x,y)</span>:</span></span><br><span class="line">        self.x = x</span><br><span class="line">        self.y = y</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>再给出图的类，保存所有的点，对于每个序列可以判断结果<br><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Graph</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,n)</span>:</span></span><br><span class="line">        self.points = []</span><br><span class="line">        self.point_n = n</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">add_point</span><span class="params">(self,p)</span>:</span></span><br><span class="line">        self.points.append(p)</span><br><span class="line">        self.point_n += <span class="number">1</span></span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">ask_distance</span><span class="params">(self,i,j)</span>:</span></span><br><span class="line">        point_x = self.points[i]</span><br><span class="line">        point_y = self.points[j]</span><br><span class="line">        <span class="keyword">return</span> math.sqrt(sqr(point_x.x - point_y.x) + sqr(point_x.y - point_y.y))</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">ask_distance_for_plan</span><span class="params">(self,plan)</span>:</span></span><br><span class="line">        res = <span class="number">0.0</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,self.point_n):</span><br><span class="line">            res += self.ask_distance(plan[i],plan[i<span class="number">-1</span>])</span><br><span class="line">        res += self.ask_distance(plan[<span class="number">0</span>],plan[self.point_n<span class="number">-1</span>])</span><br><span class="line">        <span class="keyword">return</span> res</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">show</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">for</span> item <span class="keyword">in</span> self.points:</span><br><span class="line">            print(item.x,<span class="string">" "</span>,item.y)</span><br></pre></td></tr></table></figure></p>
+<ol start="2">
+<li>单体蚂蚁设计<br>每个单体蚂蚁需要有如下属性：<blockquote>
+<ol>
+<li>当前所在城市</li>
+<li>走过的路径</li>
+<li>已经走过的路径的个数</li>
+</ol>
+</blockquote>
+</li>
+</ol>
+<p>对应的python代码是：<br><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Ant</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,cur_city,city_n)</span>:</span></span><br><span class="line">        self.city = cur_city</span><br><span class="line">        self.tabu_table = [<span class="number">0</span> <span class="keyword">for</span> i <span class="keyword">in</span> range(city_n)]</span><br><span class="line">        self.tabu_table[self.city] = <span class="number">1</span></span><br><span class="line">        self.city_cnt = <span class="number">1</span></span><br></pre></td></tr></table></figure></p>
+<ol start="3">
+<li>算法实例类<br>最核心的部分就是<code>run()</code>方法，是整个算法的主题</li>
+</ol>
+<p>根据前面给出的流程图，同时还需要初始化函数。</p>
+<p>首先定义一些重要的常数：<br><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,ant_n,max_time)</span>:</span></span><br><span class="line">    self.MAX_TIME = max_time</span><br><span class="line">    self.ant_n = ant_n</span><br><span class="line">    self.alpha = DEFAULT_ALPHA</span><br><span class="line">    self.beta = DEFAULT_BETA</span><br><span class="line">    self.rou = DEFAULT_ROU</span><br><span class="line">    self.Q = DEFAULT_Q</span><br></pre></td></tr></table></figure></p>
+<p>其中</p>
+<ul>
+<li>MAX_TIME是最大迭代次数</li>
+<li>ant_n 是蚁群数量</li>
+<li>alpha,beta是幂次常数</li>
+<li>rou是信息量留存率</li>
+<li>Q是蚂蚁信息量流动</li>
+</ul>
+<p><strong>注意：使用的是蚁密模型，所以Q不变化</strong></p>
+<p>随后进行蚁群的初始化，对于每一个蚂蚁随机其位置<br><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">init_ants</span><span class="params">(self,city_n)</span>:</span></span><br><span class="line">    random.seed(time.time())</span><br><span class="line">    ants = []</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(self.ant_n):</span><br><span class="line">        ants.append(Ant(random.randint(<span class="number">0</span>,city_n<span class="number">-1</span>),city_n))</span><br><span class="line">    <span class="keyword">return</span> ants</span><br></pre></td></tr></table></figure></p>
+<p>随后初始化信息量,初始所有信息量为1.0<br><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">init_info</span><span class="params">(self,n)</span>:</span></span><br><span class="line">    info = [[<span class="number">1.0</span> <span class="keyword">for</span> i <span class="keyword">in</span> range(n)] <span class="keyword">for</span> i <span class="keyword">in</span> range(n)]</span><br><span class="line">    <span class="keyword">return</span> info</span><br></pre></td></tr></table></figure></p>
+<p>最后就是算法实体了，给出核心代码，算法细节参见其中的注释<br><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">run</span><span class="params">(self,n,graph)</span>:</span></span><br><span class="line">    random.seed(time.time())</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 初始化参数</span></span><br><span class="line">    city_n = n</span><br><span class="line">    i_time = <span class="number">0</span></span><br><span class="line">    info = self.init_info(n)</span><br><span class="line">    new_info = copy.copy(info)</span><br><span class="line">    ants = self.init_ants(n)</span><br><span class="line"></span><br><span class="line">    init_plan = [i <span class="keyword">for</span> i <span class="keyword">in</span> range(city_n)]</span><br><span class="line">    better_res = &#123;</span><br><span class="line">            <span class="string">"fitness"</span>: graph.ask_distance_for_plan(init_plan),</span><br><span class="line">            <span class="string">"plan"</span>: init_plan</span><br><span class="line">        &#125;</span><br><span class="line">    <span class="comment"># 迭代开始</span></span><br><span class="line">    print(<span class="string">"start algorithm"</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> i_time &lt; self.MAX_TIME:</span><br><span class="line">        info = copy.copy(new_info)</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 对于每一个城市的连接，进行信息衰减</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(city_n):</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> range(city_n):</span><br><span class="line">                <span class="keyword">if</span> i == j:</span><br><span class="line">                    <span class="keyword">continue</span></span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    new_info[i][j] *= (<span class="number">1</span> - self.rou)</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 对于每一只蚂蚁个体进行操作</span></span><br><span class="line">        <span class="keyword">for</span> ant <span class="keyword">in</span> ants:</span><br><span class="line">            city_i = ant.city</span><br><span class="line">            p_max = <span class="number">0.0</span></span><br><span class="line">            city_max = city_i</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">for</span> city <span class="keyword">in</span> range(city_n):</span><br><span class="line">                <span class="comment"># 查看每个城市这只蚂蚁是否还可以继续走</span></span><br><span class="line">                <span class="keyword">if</span> ant.tabu_table[city] != <span class="number">0</span>:</span><br><span class="line">                    <span class="keyword">continue</span></span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    <span class="comment"># 根据公式进行计算新的出发概率</span></span><br><span class="line">                    <span class="comment"># 记录概率最大的路径</span></span><br><span class="line">                    p = math.pow(info[city_i][city],self.alpha)</span><br><span class="line">                    p *= math.pow((<span class="number">1.0</span> / graph.ask_distance(city_i,city)),self.beta)</span><br><span class="line">                    <span class="keyword">if</span> p_max &lt; p:</span><br><span class="line">                        p_max = p</span><br><span class="line">                        city_max = city</span><br><span class="line">            </span><br><span class="line">            <span class="comment"># 将这只蚂蚁进行实际的行走，并改变这条路的信息量</span></span><br><span class="line">            new_info[city_i][city_max] += self.Q</span><br><span class="line">            ant.city_cnt += <span class="number">1</span></span><br><span class="line">            ant.tabu_table[city_max] = ant.city_cnt</span><br><span class="line">            ant.city = city_max</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> ant.city_cnt == city_n:</span><br><span class="line">                print(ant.city)</span><br><span class="line">                print(ant.tabu_table)</span><br><span class="line">                plan = []</span><br><span class="line">                <span class="keyword">for</span> i <span class="keyword">in</span> range(city_n):</span><br><span class="line">                    <span class="keyword">for</span> j <span class="keyword">in</span> range(city_n):</span><br><span class="line">                        <span class="keyword">if</span> i + <span class="number">1</span> == ant.tabu_table[j]:</span><br><span class="line">                            plan.append(j)</span><br><span class="line">                            <span class="keyword">break</span></span><br><span class="line">                <span class="comment"># 如果当前蚂蚁走完了所有的道路，那么统计以此大难</span></span><br><span class="line">                <span class="keyword">if</span> better_res[<span class="string">"fitness"</span>] &gt; graph.ask_distance_for_plan(plan):</span><br><span class="line">                    better_res[<span class="string">"fitness"</span>] = graph.ask_distance_for_plan(plan)</span><br><span class="line">                    better_res[<span class="string">"plan"</span>] = copy.copy(plan)</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 迭代次数+1</span></span><br><span class="line">        i_time += <span class="number">1</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 最终输出最好的解</span></span><br><span class="line">    print(better_res)</span><br></pre></td></tr></table></figure></p>
+<h3 id="4-实验结果"><a href="#4-实验结果" class="headerlink" title="4. 实验结果"></a>4. 实验结果</h3><h4 id="4-1-实验数据"><a href="#4-1-实验数据" class="headerlink" title="4.1 实验数据"></a>4.1 实验数据</h4><p>使用的实验数据如下：<br>给出所有点的坐标<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">A 2.5 4.0</span><br><span class="line">B 1.2 -2.4</span><br><span class="line">C 8.7 1.2</span><br><span class="line">D 3.6 12.1</span><br><span class="line">E -5.5 0.94</span><br><span class="line">F -6.6 -12.6</span><br><span class="line">G 0.18 5.219</span><br><span class="line">H 12.5 14.3609</span><br><span class="line">I 22.5 -5.26</span><br><span class="line">J 1.61 4.5</span><br><span class="line">K 2.1 -5.6</span><br><span class="line">L 0 25</span><br><span class="line">M 9.2 -32</span><br><span class="line">N -1 7</span><br><span class="line">O -5 -8</span><br><span class="line">P 21 35</span><br><span class="line">Q 16 7.5</span><br><span class="line">R -21 5</span><br><span class="line">S -7 -25.5</span><br><span class="line">T 12 17.5</span><br></pre></td></tr></table></figure></p>
+<p>给出读入数据的python代码：<br><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">graph = Graph(<span class="number">0</span>)</span><br><span class="line"><span class="keyword">with</span> open(<span class="string">"in.txt"</span>,<span class="string">"r"</span>) <span class="keyword">as</span> f:</span><br><span class="line">    lines = f.readlines()</span><br><span class="line">    <span class="keyword">for</span> line <span class="keyword">in</span> lines:</span><br><span class="line">        line = str(line)</span><br><span class="line">        <span class="comment"># print(line)</span></span><br><span class="line">        items = line.split(<span class="string">' '</span>)</span><br><span class="line">        x = float(items[<span class="number">1</span>])</span><br><span class="line">        y = float(items[<span class="number">2</span>])</span><br><span class="line">        <span class="comment"># print('x =',x,' y = ',y)</span></span><br><span class="line">        graph.add_point(Point(x,y))</span><br></pre></td></tr></table></figure></p>
+<h4 id="4-2-实验结果展示"><a href="#4-2-实验结果展示" class="headerlink" title="4.2 实验结果展示"></a>4.2 实验结果展示</h4><p>使用代码进行运算之后，给出的方案如下：</p>
+<p>方案结果：<br>plan 属性就是行走的序列<br><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#123;<span class="string">'fitness'</span>: <span class="number">236.00533690946466</span></span><br><span class="line"> <span class="string">'plan'</span>: [<span class="number">7</span>, <span class="number">19</span>, <span class="number">3</span>, <span class="number">13</span>, <span class="number">6</span>, <span class="number">9</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">10</span>, <span class="number">14</span>, <span class="number">5</span>, <span class="number">18</span>, <span class="number">12</span>, <span class="number">8</span>, <span class="number">16</span>, <span class="number">2</span>, <span class="number">4</span>, <span class="number">17</span>, <span class="number">11</span>, <span class="number">15</span>]&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在蚂蚁群体为1000，迭代次数为2000的时候，运行时间大概是7.311997413635254s，（时间不包括构建图的时间）</p>
+<p>最终运行结果统计：考虑到随机性，这个时候多次运行就是必要的了。我们随机20次之后，平均的结果是：232.55980133891256</p>
+<h4 id="4-2-实验结果分析"><a href="#4-2-实验结果分析" class="headerlink" title="4.2 实验结果分析"></a>4.2 实验结果分析</h4><h5 id="4-2-1-稳定性"><a href="#4-2-1-稳定性" class="headerlink" title="4.2.1 稳定性"></a>4.2.1 稳定性</h5><p>在多次运行的情况下的结果：<br>在这个情况下：<br><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">aco = ACO(<span class="number">100</span>,<span class="number">2000</span>)</span><br></pre></td></tr></table></figure></p>
+<p>运行结果是（由于是组合问题，从而是同样的问题）：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">236.00533690946466</span><br><span class="line">236.00533690946466 </span><br><span class="line">236.00533690946466 </span><br><span class="line">232.5598013389125 </span><br><span class="line">232.5598013389125 </span><br><span class="line">232.5598013389125 </span><br><span class="line">240.61174671394733 </span><br><span class="line">232.5598013389125 </span><br><span class="line">239.12791725285265 </span><br><span class="line">232.5598013389125 </span><br><span class="line">232.5598013389125 </span><br><span class="line">232.5598013389125 </span><br><span class="line">236.00533690946466 </span><br><span class="line">232.5598013389125 </span><br><span class="line">237.101406422663 </span><br><span class="line">232.5598013389125 </span><br><span class="line">232.5598013389125 </span><br><span class="line">232.5598013389125 </span><br><span class="line">232.5598013389125 </span><br><span class="line">232.5598013389125</span><br></pre></td></tr></table></figure></p>
+<p>可以看到最终的结果是非常稳定的</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/ACO/" rel="tag"># ACO</a>
+          
+            <a href="/tags/Computation-Intelligence/" rel="tag"># Computation-Intelligence</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/src/综述/hello-world/" rel="next" title="HomePage">
+                <i class="fa fa-chevron-left"></i> HomePage
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/src/uncategorized/GA-TSP/" rel="prev" title="GA_TSP">
+                GA_TSP <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">GeekVitaminC</p>
+              <p class="site-description motion-element" itemprop="description">思考者</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">189</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">8</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">72</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/GeekVitaminC" target="_blank" title="GitHub"><i class="fa fa-fw fa-globe"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="GeekVitaminC@outlook.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-globe"></i>E-Mail</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#蚁群算法实验————解决TSP问题"><span class="nav-number">1.</span> <span class="nav-text">蚁群算法实验————解决TSP问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-实验背景"><span class="nav-number">1.1.</span> <span class="nav-text">1. 实验背景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-蚁群算法"><span class="nav-number">1.2.</span> <span class="nav-text">2. 蚁群算法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-蚁群算法简介"><span class="nav-number">1.2.1.</span> <span class="nav-text">2.1 蚁群算法简介</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-蚁群算法结合TSP"><span class="nav-number">1.2.2.</span> <span class="nav-text">2.2 蚁群算法结合TSP</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-算法设计流程"><span class="nav-number">1.3.</span> <span class="nav-text">3. 算法设计流程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-算法实现过程"><span class="nav-number">1.3.1.</span> <span class="nav-text">3.1 算法实现过程</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#3-1-1-算法公式"><span class="nav-number">1.3.1.1.</span> <span class="nav-text">3.1.1 算法公式</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#3-1-1-1-计算信息量"><span class="nav-number">1.3.1.1.1.</span> <span class="nav-text">3.1.1.1 计算信息量</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#3-1-1-2-信息量更新"><span class="nav-number">1.3.1.1.2.</span> <span class="nav-text">3.1.1.2 信息量更新</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-1-2-算法设计"><span class="nav-number">1.3.1.2.</span> <span class="nav-text">3.1.2 算法设计</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-实验结果"><span class="nav-number">1.4.</span> <span class="nav-text">4. 实验结果</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#4-1-实验数据"><span class="nav-number">1.4.1.</span> <span class="nav-text">4.1 实验数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-实验结果展示"><span class="nav-number">1.4.2.</span> <span class="nav-text">4.2 实验结果展示</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-实验结果分析"><span class="nav-number">1.4.3.</span> <span class="nav-text">4.2 实验结果分析</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#4-2-1-稳定性"><span class="nav-number">1.4.3.1.</span> <span class="nav-text">4.2.1 稳定性</span></a></li></ol></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">GeekVitaminC</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/theme-next/hexo-theme-next">NexT.Mist</a> v6.1.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.1.0"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

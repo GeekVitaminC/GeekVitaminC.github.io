@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.1.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.1.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.1.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '6.1.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="模拟退火算法实验————解决TSP问题 本报告使用模拟退火算法解决TSP问题  1. 实验背景旅行商问题，即TSP问题（Traveling Salesman Problem），也叫旅行推销员问题、货郎担问题，是数学领域中著名问题之一。假设有一个旅行商人要拜访n个城市，他必须选择所要走的路径，路径的限制是每个城市只能拜访一次，而且最后要回到原来出发的城市。路径的选择目标是要求得的路径路程为所有路径之">
+<meta name="keywords" content="Computation-Intelligence,SA">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SA_TSP">
+<meta property="og:url" content="http://yoursite.com/src/uncategorized/SA-TSP/index.html">
+<meta property="og:site_name" content="VitaminC的小站">
+<meta property="og:description" content="模拟退火算法实验————解决TSP问题 本报告使用模拟退火算法解决TSP问题  1. 实验背景旅行商问题，即TSP问题（Traveling Salesman Problem），也叫旅行推销员问题、货郎担问题，是数学领域中著名问题之一。假设有一个旅行商人要拜访n个城市，他必须选择所要走的路径，路径的限制是每个城市只能拜访一次，而且最后要回到原来出发的城市。路径的选择目标是要求得的路径路程为所有路径之">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-05-18T17:37:09.612Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SA_TSP">
+<meta name="twitter:description" content="模拟退火算法实验————解决TSP问题 本报告使用模拟退火算法解决TSP问题  1. 实验背景旅行商问题，即TSP问题（Traveling Salesman Problem），也叫旅行推销员问题、货郎担问题，是数学领域中著名问题之一。假设有一个旅行商人要拜访n个城市，他必须选择所要走的路径，路径的限制是每个城市只能拜访一次，而且最后要回到原来出发的城市。路径的选择目标是要求得的路径路程为所有路径之">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/src/uncategorized/SA-TSP/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>SA_TSP | VitaminC的小站</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">VitaminC的小站</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">时光慢慢走</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />Home</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />About</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />Tags</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />Categories</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />Archives</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/src/uncategorized/SA-TSP/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="GeekVitaminC">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="VitaminC的小站">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">SA_TSP
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2018-05-10 02:42:01" itemprop="dateCreated datePublished" datetime="2018-05-10T02:42:01+08:00">2018-05-10</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2018-05-19 01:37:09" itemprop="dateModified" datetime="2018-05-19T01:37:09+08:00">2018-05-19</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="模拟退火算法实验————解决TSP问题"><a href="#模拟退火算法实验————解决TSP问题" class="headerlink" title="模拟退火算法实验————解决TSP问题"></a>模拟退火算法实验————解决TSP问题</h2><blockquote>
+<p>本报告使用模拟退火算法解决TSP问题</p>
+</blockquote>
+<h3 id="1-实验背景"><a href="#1-实验背景" class="headerlink" title="1. 实验背景"></a>1. 实验背景</h3><p>旅行商问题，即TSP问题（Traveling Salesman Problem），也叫旅行推销员问题、货郎担问题，是数学领域中著名问题之一。假设有一个旅行商人要拜访n个城市，他必须选择所要走的路径，路径的限制是每个城市只能拜访一次，而且最后要回到原来出发的城市。路径的选择目标是要求得的路径路程为所有路径之中的最小值。</p>
+<p>旅行推销员问题是图论中最著名的问题之一，即“已给一个n个点的完全图，每条边都有一个长度，求总长度最短的经过每个顶点正好一次的封闭回路”。Edmonds，Cook和Karp等人发现，这批难题有一个值得注意的性质，对其中一个问题存在有效算法时，每个问题都会有有效算法。</p>
+<p>迄今为止，这类问题中没有一个找到有效算法。倾向于接受NP完全问题（NP-Complete或NPC）和NP难题（NP-Hard或NPH）不存在有效算法这一猜想，认为这类问题的大型实例不能用精确算法求解，必须寻求这类问题的有效的近似算法。</p>
+<h3 id="2-模拟退火算法"><a href="#2-模拟退火算法" class="headerlink" title="2. 模拟退火算法"></a>2. 模拟退火算法</h3><h4 id="2-1-算法简介"><a href="#2-1-算法简介" class="headerlink" title="2.1 算法简介"></a>2.1 算法简介</h4><p>模拟退火算法（Simulate Anneal，SA）是一种通用概率演算法，用来在一个大的搜寻空间内找寻命题的最优解。</p>
+<p>模拟退火的出发点是基于物理中固体物质的退火过程与一般组合优化问题之间的相似性。模拟退火算法是一种通用的优化算法，其物理退火过程由加温过程、等温过程、冷却过程这三部分组成。</p>
+<p>模拟退火的原理也和金属退火的原理近似：将热力学的理论套用到统计学上，将搜寻空间内每一点想像成空气内的分子；分子的能量，就是它本身的动能；而搜寻空间内的每一点，也像空气分子一样带有“能量”，以表示该点对命题的合适程度。演算法先以搜寻空间内一个任意点作起始：每一步先选择一个“邻居”，然后再计算从现有位置到达“邻居”的概率。</p>
+<h4 id="2-2-算法结合TSP"><a href="#2-2-算法结合TSP" class="headerlink" title="2.2 算法结合TSP"></a>2.2 算法结合TSP</h4><p>状态空间与状态产生函数</p>
+<ol>
+<li>搜索空间也称为状态空间，它由经过编码的可行解的集合组成。</li>
+<li>状态产生函数应尽可能保证产生的候选解遍布全部解空间。通常由两部分组成，即产生候选解的方式和候选解产生的概率分布。</li>
+<li>候选解一般采用按照某一概率密度函数对解空间进行随机采样来获得。</li>
+<li>概率分布可以是均匀分布、正态分布、指数分布等。</li>
+</ol>
+<p>状态转移概率</p>
+<ol>
+<li>状态转移概率是指从一个状态向另一个状态的转移概率。</li>
+<li>通俗的理解是接受一个新解为当前解的概率。</li>
+<li>它与当前的温度参数T有关，随温度下降而减小。</li>
+<li>一般采用Metropolis准则。</li>
+</ol>
+<p>内循环终止准则<br>也称Metropolis抽样稳定准则，用于决定在各温度下产生候选解的数目。常用的抽样稳定准则包括：</p>
+<ol>
+<li>检验目标函数的均值是否稳定。</li>
+<li>连续若干步的目标值变化较小。</li>
+<li>按一定的步数抽样。</li>
+</ol>
+<p>外循环终止准则<br>即算法终止准则，常用的包括：</p>
+<ol>
+<li>设置终止温度的阈值。</li>
+<li>设置外循环迭代次数。</li>
+<li>算法搜索到的最优值连续若干步保持不变。</li>
+<li>检验系统熵是否稳定。</li>
+</ol>
+<h3 id="3-算法设计流程"><a href="#3-算法设计流程" class="headerlink" title="3. 算法设计流程"></a>3. 算法设计流程</h3><h4 id="3-1-算法流程图"><a href="#3-1-算法流程图" class="headerlink" title="3.1 算法流程图"></a>3.1 算法流程图</h4><h4 id="3-2-算法实现过程"><a href="#3-2-算法实现过程" class="headerlink" title="3.2 算法实现过程"></a>3.2 算法实现过程</h4><p>使用python3作为设计语言，其中本次使用的版本是python3.6，其中使用了常规的的库有：</p>
+<ol>
+<li>time</li>
+<li>copy</li>
+<li>random</li>
+<li>math</li>
+</ol>
+<p>使用的非内置库有：</p>
+<ol>
+<li>numpy</li>
+<li>matplotlib</li>
+</ol>
+<h5 id="3-2-1-算法公式"><a href="#3-2-1-算法公式" class="headerlink" title="3.2.1 算法公式"></a>3.2.1 算法公式</h5><blockquote>
+<p>本算法设计的公式有：</p>
+<ol>
+<li>Metropolis准则</li>
+<li>降温方法</li>
+</ol>
+</blockquote>
+<h6 id="3-2-1-1-Metropolis准则"><a href="#3-2-1-1-Metropolis准则" class="headerlink" title="3.2.1.1 Metropolis准则"></a>3.2.1.1 Metropolis准则</h6><p>首先计算两次适应值的差距<br>$$\Delta f = f_1 - f_2$$<br>随后计算：<br>$$e^{-\frac{\Delta f}{T_k}} &gt; \xi$$<br>其中$\xi \in (0,1)$是一个随机的小数<br>根据上面这个式子判断是否接受一个新的值</p>
+<h6 id="3-2-1-2-降温方法"><a href="#3-2-1-2-降温方法" class="headerlink" title="3.2.1.2 降温方法"></a>3.2.1.2 降温方法</h6><p>我这里使用的是用指数更新的方式进行温度更新<br>$$T = T \times q$$</p>
+<h5 id="3-2-2-算法设计"><a href="#3-2-2-算法设计" class="headerlink" title="3.2.2 算法设计"></a>3.2.2 算法设计</h5><h6 id="3-2-2-1-TSP的基础类"><a href="#3-2-2-1-TSP的基础类" class="headerlink" title="3.2.2.1 TSP的基础类"></a>3.2.2.1 TSP的基础类</h6><p>首先对于TSP问题，首先需要解决对于TSP至少图的问题的解决</p>
+<ol>
+<li><p>点类</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Point</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,x,y)</span>:</span></span><br><span class="line">        self.x = x</span><br><span class="line">        self.y = y</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>图类<br>对于TSP最重要的是通过一个行走序列，得到路径长度，所以其中的<code>ask_distance_for_plan()</code>是非常重要的。</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Graph</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,n)</span>:</span></span><br><span class="line">        self.points = []</span><br><span class="line">        self.point_n = n</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">add_point</span><span class="params">(self,p)</span>:</span></span><br><span class="line">        self.points.append(p)</span><br><span class="line">        self.point_n += <span class="number">1</span></span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">ask_distance</span><span class="params">(self,i,j)</span>:</span></span><br><span class="line">        point_x = self.points[i]</span><br><span class="line">        point_y = self.points[j]</span><br><span class="line">        <span class="keyword">return</span> math.sqrt(sqr(point_x.x - point_y.x) + sqr(point_x.y - point_y.y))</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">ask_distance_for_plan</span><span class="params">(self,plan)</span>:</span></span><br><span class="line">        res = <span class="number">0.0</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,self.point_n):</span><br><span class="line">            res += self.ask_distance(plan[i],plan[i<span class="number">-1</span>])</span><br><span class="line">        res += self.ask_distance(plan[<span class="number">0</span>],plan[self.point_n<span class="number">-1</span>])</span><br><span class="line">        <span class="comment"># print(plan,' ',res)</span></span><br><span class="line">        <span class="keyword">return</span> res</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">show</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">for</span> item <span class="keyword">in</span> self.points:</span><br><span class="line">            print(item.x,<span class="string">" "</span>,item.y)</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h6 id="3-2-2-2-初始化"><a href="#3-2-2-2-初始化" class="headerlink" title="3.2.2.2 初始化"></a>3.2.2.2 初始化</h6><p>对于模拟退火的时候，初始化操作就是规定初始温度，结束温度，每个温度中的迭代次数，温度削减率$q$<br><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,t_max,t_min,L,q)</span>:</span></span><br><span class="line">    self.T_MAX = t_max</span><br><span class="line">    self.T_MIN = t_min</span><br><span class="line">    self.L = L</span><br><span class="line">    self.q = q</span><br></pre></td></tr></table></figure></p>
+<h6 id="3-2-2-3-run-最主要的函数"><a href="#3-2-2-3-run-最主要的函数" class="headerlink" title="3.2.2.3 run()最主要的函数"></a>3.2.2.3 <code>run()</code>最主要的函数</h6><p>给出核心的代码：<br><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">run</span><span class="params">(self,n,graph)</span>:</span></span><br><span class="line">    <span class="comment"># 随机化种子</span></span><br><span class="line">    random.seed(time.time())</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 初始化需要的变量    </span></span><br><span class="line">    init_plan = self.initPlan(n)</span><br><span class="line">    T = self.T_MAX</span><br><span class="line">    </span><br><span class="line">    res = &#123;</span><br><span class="line">            <span class="string">"fitness"</span>: graph.ask_distance_for_plan(init_plan),</span><br><span class="line">            <span class="string">"plan"</span>: init_plan</span><br><span class="line">            &#125;</span><br><span class="line">    </span><br><span class="line">    count = <span class="number">0</span></span><br><span class="line">    T_s = []</span><br><span class="line">    best_ans = []</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 温度处理</span></span><br><span class="line">    <span class="keyword">while</span> T &gt; self.T_MIN:</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 迭代过程</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(self.L):</span><br><span class="line">            <span class="comment"># 寻找新的解</span></span><br><span class="line">            new_plan = copy.copy(init_plan)</span><br><span class="line">            new_plan = self.get_new_plan(new_plan)</span><br><span class="line">            count += <span class="number">1</span></span><br><span class="line">            </span><br><span class="line">            init_fitness = graph.ask_distance_for_plan(init_plan)</span><br><span class="line">            new_fitness  = graph.ask_distance_for_plan(new_plan)</span><br><span class="line">        </span><br><span class="line">            <span class="keyword">if</span> res[<span class="string">"fitness"</span>] &gt; init_fitness:</span><br><span class="line">                res[<span class="string">"fitness"</span>] = init_fitness</span><br><span class="line">                res[<span class="string">"plan"</span>] = copy.copy(init_plan)</span><br><span class="line">            <span class="keyword">if</span> res[<span class="string">"fitness"</span>] &gt; new_fitness:</span><br><span class="line">                res[<span class="string">"fitness"</span>] = new_fitness</span><br><span class="line">                res[<span class="string">"plan"</span>] = copy.copy(new_plan)</span><br><span class="line">            </span><br><span class="line">            <span class="comment"># print("fitness = ",init_fitness," plan :\n",init_plan)                </span></span><br><span class="line">            <span class="comment"># 利用差值，以及之前的结果判断结果是否满足接受</span></span><br><span class="line">            delta_fitness = new_fitness - init_fitness</span><br><span class="line">            <span class="comment"># print("delta = ",delta_fitness)</span></span><br><span class="line"></span><br><span class="line">            <span class="comment"># if the fitness get smaller , then it should be good</span></span><br><span class="line">            <span class="comment"># if the fitness get bigger , the it can be accepted by rate</span></span><br><span class="line">            <span class="keyword">if</span> delta_fitness &gt;= <span class="number">0</span>:</span><br><span class="line">                div = random.random()</span><br><span class="line">                metropolis = math.exp(-delta_fitness / T)</span><br><span class="line">                </span><br><span class="line">                <span class="keyword">if</span> metropolis &lt;= div:</span><br><span class="line">                    init_plan = copy.copy(new_plan)</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                init_plan = copy.copy(new_plan)</span><br><span class="line"></span><br><span class="line">        T_s.append(T)</span><br><span class="line">        best_ans.append(res[<span class="string">"fitness"</span>])</span><br><span class="line">        T *= self.q</span><br><span class="line">        </span><br><span class="line">    print(res)</span><br><span class="line">    <span class="keyword">return</span> res,T_s,best_ans</span><br></pre></td></tr></table></figure></p>
+<h3 id="4-实验结果"><a href="#4-实验结果" class="headerlink" title="4. 实验结果"></a>4. 实验结果</h3><h4 id="4-1-实验数据"><a href="#4-1-实验数据" class="headerlink" title="4.1 实验数据"></a>4.1 实验数据</h4><p>使用的实验数据如下：<br>给出所有点的坐标<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">A 2.5 4.0</span><br><span class="line">B 1.2 -2.4</span><br><span class="line">C 8.7 1.2</span><br><span class="line">D 3.6 12.1</span><br><span class="line">E -5.5 0.94</span><br><span class="line">F -6.6 -12.6</span><br><span class="line">G 0.18 5.219</span><br><span class="line">H 12.5 14.3609</span><br><span class="line">I 22.5 -5.26</span><br><span class="line">J 1.61 4.5</span><br><span class="line">K 2.1 -5.6</span><br><span class="line">L 0 25</span><br><span class="line">M 9.2 -32</span><br><span class="line">N -1 7</span><br><span class="line">O -5 -8</span><br><span class="line">P 21 35</span><br><span class="line">Q 16 7.5</span><br><span class="line">R -21 5</span><br><span class="line">S -7 -25.5</span><br><span class="line">T 12 17.5</span><br></pre></td></tr></table></figure></p>
+<p>给出读入数据的python代码：<br><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">graph = Graph(<span class="number">0</span>)</span><br><span class="line"><span class="keyword">with</span> open(<span class="string">"in.txt"</span>,<span class="string">"r"</span>) <span class="keyword">as</span> f:</span><br><span class="line">    lines = f.readlines()</span><br><span class="line">    <span class="keyword">for</span> line <span class="keyword">in</span> lines:</span><br><span class="line">        line = str(line)</span><br><span class="line">        <span class="comment"># print(line)</span></span><br><span class="line">        items = line.split(<span class="string">' '</span>)</span><br><span class="line">        x = float(items[<span class="number">1</span>])</span><br><span class="line">        y = float(items[<span class="number">2</span>])</span><br><span class="line">        <span class="comment"># print('x =',x,' y = ',y)</span></span><br><span class="line">        graph.add_point(Point(x,y))</span><br></pre></td></tr></table></figure></p>
+<h4 id="4-2-实验结果展示"><a href="#4-2-实验结果展示" class="headerlink" title="4.2 实验结果展示"></a>4.2 实验结果展示</h4><p>使用已有代码进行运行，运行结果如下：<br>最终的结果：<br><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#123;<span class="string">'fitness'</span>: <span class="number">224.65153949772267</span>, </span><br><span class="line"><span class="string">'plan'</span>: [<span class="number">7</span>, <span class="number">16</span>, <span class="number">8</span>, <span class="number">12</span>, <span class="number">18</span>, <span class="number">5</span>, <span class="number">14</span>, <span class="number">10</span>, <span class="number">1</span>, <span class="number">4</span>, <span class="number">17</span>, <span class="number">13</span>, <span class="number">6</span>, <span class="number">9</span>, <span class="number">0</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">11</span>, <span class="number">15</span>, <span class="number">19</span>]&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="4-2-实验结果分析"><a href="#4-2-实验结果分析" class="headerlink" title="4.2 实验结果分析"></a>4.2 实验结果分析</h4><ol>
+<li>退火过程和最优解<br>在中间算法过程中，记录最优结果，查看最优结果和退火中温度的变化<br>结果如图所示：</li>
+<li><p>改变迭代次数$L$和最终结果<br>改变每个温度的迭代次数，查看最终的结果。<br>中间折线的结果，是取得这些结果：</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">L = [<span class="number">10</span>,<span class="number">30</span>,<span class="number">50</span>,<span class="number">80</span>,<span class="number">100</span>,<span class="number">120</span>,<span class="number">150</span>,<span class="number">180</span>,<span class="number">200</span>,<span class="number">300</span>,<span class="number">500</span>]</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>改变温度改变率$q$<br>改变温度的修改，修改$q$的值<br>中间折现的结果，是取得如下的改变率：</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">q_s = [<span class="number">0.75</span>,<span class="number">0.76</span>,<span class="number">0.77</span>,<span class="number">0.78</span>,<span class="number">0.79</span>,<span class="number">0.8</span>,<span class="number">0.81</span>,<span class="number">0.82</span>,<span class="number">0.83</span>,<span class="number">0.84</span>,</span><br><span class="line"><span class="number">0.85</span>,<span class="number">0.86</span>,<span class="number">0.87</span>,<span class="number">0.88</span>,<span class="number">0.89</span>,<span class="number">0.9</span>,<span class="number">0.91</span>,<span class="number">0.92</span>,<span class="number">0.93</span>,<span class="number">0.94</span>,<span class="number">0.95</span>,<span class="number">0.96</span>,<span class="number">0.97</span>,<span class="number">0.98</span>]</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>总结<br>通过上述两个数据结果，我们可以明显看到，模拟退火在一定程度上可以得到非常好的解，但是在实际的运用中，却不是非常稳定的可以得到比较好的结果。随着迭代次数求解的过程，并不一定结果稳定的变好。</p>
+</li>
+</ol>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Computation-Intelligence/" rel="tag"># Computation-Intelligence</a>
+          
+            <a href="/tags/SA/" rel="tag"># SA</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/src/uncategorized/PSO-TSP/" rel="next" title="PSO_TSP">
+                <i class="fa fa-chevron-left"></i> PSO_TSP
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/src/uncategorized/TS-TSP/" rel="prev" title="TS_TSP">
+                TS_TSP <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">GeekVitaminC</p>
+              <p class="site-description motion-element" itemprop="description">思考者</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">189</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">8</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">72</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/GeekVitaminC" target="_blank" title="GitHub"><i class="fa fa-fw fa-globe"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="GeekVitaminC@outlook.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-globe"></i>E-Mail</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#模拟退火算法实验————解决TSP问题"><span class="nav-number">1.</span> <span class="nav-text">模拟退火算法实验————解决TSP问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-实验背景"><span class="nav-number">1.1.</span> <span class="nav-text">1. 实验背景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-模拟退火算法"><span class="nav-number">1.2.</span> <span class="nav-text">2. 模拟退火算法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-算法简介"><span class="nav-number">1.2.1.</span> <span class="nav-text">2.1 算法简介</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-算法结合TSP"><span class="nav-number">1.2.2.</span> <span class="nav-text">2.2 算法结合TSP</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-算法设计流程"><span class="nav-number">1.3.</span> <span class="nav-text">3. 算法设计流程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-算法流程图"><span class="nav-number">1.3.1.</span> <span class="nav-text">3.1 算法流程图</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-算法实现过程"><span class="nav-number">1.3.2.</span> <span class="nav-text">3.2 算法实现过程</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#3-2-1-算法公式"><span class="nav-number">1.3.2.1.</span> <span class="nav-text">3.2.1 算法公式</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#3-2-1-1-Metropolis准则"><span class="nav-number">1.3.2.1.1.</span> <span class="nav-text">3.2.1.1 Metropolis准则</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#3-2-1-2-降温方法"><span class="nav-number">1.3.2.1.2.</span> <span class="nav-text">3.2.1.2 降温方法</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-2-2-算法设计"><span class="nav-number">1.3.2.2.</span> <span class="nav-text">3.2.2 算法设计</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#3-2-2-1-TSP的基础类"><span class="nav-number">1.3.2.2.1.</span> <span class="nav-text">3.2.2.1 TSP的基础类</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#3-2-2-2-初始化"><span class="nav-number">1.3.2.2.2.</span> <span class="nav-text">3.2.2.2 初始化</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#3-2-2-3-run-最主要的函数"><span class="nav-number">1.3.2.2.3.</span> <span class="nav-text">3.2.2.3 run()最主要的函数</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-实验结果"><span class="nav-number">1.4.</span> <span class="nav-text">4. 实验结果</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#4-1-实验数据"><span class="nav-number">1.4.1.</span> <span class="nav-text">4.1 实验数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-实验结果展示"><span class="nav-number">1.4.2.</span> <span class="nav-text">4.2 实验结果展示</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-实验结果分析"><span class="nav-number">1.4.3.</span> <span class="nav-text">4.2 实验结果分析</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">GeekVitaminC</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/theme-next/hexo-theme-next">NexT.Mist</a> v6.1.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.1.0"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
