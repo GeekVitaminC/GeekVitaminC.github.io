@@ -298,6 +298,159 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/src/uncategorized/HDU-4699/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="GeekVitaminC">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="VitaminC的小站">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/src/uncategorized/HDU-4699/" itemprop="url">
+                  HDU-4699
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2018-04-22 22:25:04" itemprop="dateCreated datePublished" datetime="2018-04-22T22:25:04+08:00">2018-04-22</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2018-04-30 14:54:28" itemprop="dateModified" datetime="2018-04-30T14:54:28+08:00">2018-04-30</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>来源：HDU4699</p>
+<p>就是一个模拟一个类似于栈的数据结构的题目。。。维护最大值。。。参考了题解。。。<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstdio&gt;  </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstring&gt;  </span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;  </span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> maxn = <span class="number">1000006</span>;  </span><br><span class="line"><span class="keyword">int</span> dp[maxn], sum[maxn], m, x;  </span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> inf =  <span class="number">1e9</span>+<span class="number">6</span>;  </span><br><span class="line"><span class="keyword">char</span> op[<span class="number">3</span>];  </span><br><span class="line"><span class="keyword">int</span> s1[maxn], s2[maxn], t1, t2;  <span class="comment">//写双栈来进行模拟。。。</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;  </span><br><span class="line">    <span class="keyword">while</span>( ~<span class="built_in">scanf</span>(<span class="string">"%d"</span>, &amp;m)) &#123;  </span><br><span class="line">        dp[<span class="number">0</span>] = -inf;  </span><br><span class="line">        t1 = t2 = <span class="number">0</span>;  </span><br><span class="line">        <span class="keyword">while</span>(m--) &#123;  </span><br><span class="line">            <span class="built_in">scanf</span>(<span class="string">"%s"</span>, op);  </span><br><span class="line">            <span class="keyword">if</span>(op[<span class="number">0</span>] == <span class="string">'I'</span>) &#123;  </span><br><span class="line">                <span class="built_in">scanf</span>(<span class="string">"%d"</span>, &amp;x);  </span><br><span class="line">                l[++t1] = x;  </span><br><span class="line">                sum[t1] = sum[t1<span class="number">-1</span>] + x;  </span><br><span class="line">                dp[t1] = max(dp[t1<span class="number">-1</span>], sum[t1]);  <span class="comment">//动态规划思想</span></span><br><span class="line">            &#125;  </span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(op[<span class="number">0</span>] == <span class="string">'L'</span>) &#123;  </span><br><span class="line">                <span class="keyword">if</span>(!t1) <span class="keyword">continue</span>;  </span><br><span class="line">                s2[++t2] = s1[t1--];  </span><br><span class="line">            &#125;  </span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(op[<span class="number">0</span>] == <span class="string">'R'</span>) &#123;  </span><br><span class="line">                <span class="keyword">if</span>(!t2) <span class="keyword">continue</span>;  </span><br><span class="line">                s1[++t1] = s2[t2--];  </span><br><span class="line">                sum[t1] = sum[t1<span class="number">-1</span>] + l[t1];  </span><br><span class="line">                dp[t1] = max(dp[t1<span class="number">-1</span>], sum[t1]);  </span><br><span class="line">  </span><br><span class="line">            &#125;  </span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(op[<span class="number">0</span>] == <span class="string">'D'</span>) t1--;  </span><br><span class="line">            <span class="keyword">else</span> &#123;  </span><br><span class="line">                <span class="built_in">scanf</span>(<span class="string">"%d"</span>, &amp;x);  </span><br><span class="line">                <span class="built_in">printf</span>(<span class="string">"%d\n"</span>, dp[x]);  </span><br><span class="line">            &#125;  </span><br><span class="line">        &#125;  </span><br><span class="line">  </span><br><span class="line">    &#125;  </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/src/uncategorized/codeforces-405B/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1803,173 +1956,11 @@ Cup%20Campus%20Contest&amp;source=1&amp;searchmode=source" target="_blank" rel="
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/src/uncategorized/HDU-1518/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="GeekVitaminC">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="VitaminC的小站">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/src/uncategorized/HDU-1518/" itemprop="url">
-                  HDU-1518
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-
-              
-                
-              
-
-              <time title="Created: 2018-04-22 22:24:41" itemprop="dateCreated datePublished" datetime="2018-04-22T22:24:41+08:00">2018-04-22</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Edited on</span>
-                
-                <time title="Modified: 2018-04-30 14:54:28" itemprop="dateModified" datetime="2018-04-30T14:54:28+08:00">2018-04-30</time>
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>来源：HDU1518</p>
-<p>一开始做这个题目还是觉的挺烦的，主要是要加个四个变量，然后比较，比较起来还比较麻烦。。。（绕口令，呵呵）。</p>
-<p>首先，不需要找到的次序，而且M&lt;=20，所以不会有爆栈的风险。</p>
-<p>然后就是怎么去解决的问题，因为所有的木头都是整数，所以我们考虑这个问题，所以我们可以预见的是，一旦总和%4不为0的话，则一定是不可能。</p>
-<p>下面就是dfs</p>
-<p>DFS的技巧只有两步：</p>
-<p>1.vis数组的改变的技巧</p>
-<p>2.层数和条件的调用</p>
-<p>AC代码（VJ提交）：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstring&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">int</span> m,l;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> MAXN=<span class="number">30</span>;</span><br><span class="line"><span class="keyword">int</span> a[MAXN];</span><br><span class="line"><span class="keyword">bool</span> vis[MAXN];</span><br><span class="line"><span class="keyword">long</span> <span class="keyword">long</span> sum;</span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">dfs</span><span class="params">(<span class="keyword">int</span> x,<span class="keyword">int</span> pos,<span class="keyword">int</span> len)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(x==<span class="number">3</span>)<span class="comment">//x用来记录有多少枝了。。。因为如果有三枝和l相等，就不需要算最后一个了</span></span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> i;</span><br><span class="line">    <span class="keyword">for</span>(i=pos;i&gt;=<span class="number">0</span>;i--)&#123;<span class="comment">//由于先排序了，所以我们不妨从最大的来进行一个枚举</span></span><br><span class="line">        <span class="keyword">if</span>(!vis[i])&#123;<span class="comment">//标记，老方法了</span></span><br><span class="line">            vis[i]=<span class="number">1</span>;</span><br><span class="line">            <span class="keyword">if</span>(len+a[i]&lt;l)&#123;</span><br><span class="line">                <span class="keyword">if</span>(dfs(x,i<span class="number">-1</span>,len+a[i]))<span class="comment">//还不够，所以继续搜索</span></span><br><span class="line">                    <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(len+a[i]==l)&#123;<span class="comment">//匹配成功</span></span><br><span class="line">                <span class="keyword">if</span>(dfs(x+<span class="number">1</span>,m<span class="number">-1</span>,<span class="number">0</span>))<span class="comment">//下一层搜索，其实pos==m-1，len归零</span></span><br><span class="line">                    <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            vis[i]=<span class="number">0</span>;<span class="comment">//消除标记</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;<span class="comment">//隐含是如果len+a[i]&gt;l了，返回0</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> c;</span><br><span class="line">	<span class="built_in">scanf</span>(<span class="string">"%d"</span>,&amp;c);</span><br><span class="line">	<span class="keyword">while</span>(c--)</span><br><span class="line">    &#123;</span><br><span class="line">        sum=<span class="number">0</span>;</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">"%d"</span>,&amp;m);</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;m;i++)&#123;</span><br><span class="line">            <span class="built_in">scanf</span>(<span class="string">"%d"</span>,&amp;a[i]);</span><br><span class="line">            sum+=a[i];</span><br><span class="line">        &#125;</span><br><span class="line">        sort(a,a+m);</span><br><span class="line">        l=sum/<span class="number">4</span>;</span><br><span class="line">        <span class="built_in">memset</span>(vis,<span class="number">0</span>,<span class="keyword">sizeof</span>(vis));</span><br><span class="line">        <span class="keyword">if</span>(l*<span class="number">4</span>!=sum ||m&lt;<span class="number">4</span> || l&lt;a[m<span class="number">-1</span>])<span class="comment">//剪枝</span></span><br><span class="line">        &#123;  <span class="comment">//这一个技巧非常重要的</span></span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"no\n"</span>);</span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(dfs(<span class="number">0</span>,m<span class="number">-1</span>,<span class="number">0</span>))<span class="built_in">cout</span>&lt;&lt;<span class="string">"yes"</span>&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">        <span class="keyword">else</span> <span class="built_in">cout</span>&lt;&lt;<span class="string">"no"</span>&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>恩恩，这一题就这样。。。</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/14/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><span class="page-number current">15</span><a class="page-number" href="/page/16/">16</a><span class="space">&hellip;</span><a class="page-number" href="/page/19/">19</a><a class="extend next" rel="next" href="/page/16/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/page/14/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><span class="page-number current">15</span><a class="page-number" href="/page/16/">16</a><span class="space">&hellip;</span><a class="page-number" href="/page/20/">20</a><a class="extend next" rel="next" href="/page/16/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -2012,7 +2003,7 @@ Cup%20Campus%20Contest&amp;source=1&amp;searchmode=source" target="_blank" rel="
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">190</span>
+                    <span class="site-state-item-count">191</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -2200,7 +2191,9 @@ Cup%20Campus%20Contest&amp;source=1&amp;searchmode=source" target="_blank" rel="
                     
                       
                     
-                    <span class="site-state-item-count">73</span>
+                      
+                    
+                    <span class="site-state-item-count">74</span>
                     <span class="site-state-item-name">tags</span>
                   </a>
                 </div>

@@ -298,6 +298,160 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/src/uncategorized/LightOJ-1004/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="GeekVitaminC">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="VitaminC的小站">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/src/uncategorized/LightOJ-1004/" itemprop="url">
+                  LightOJ-1004
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2018-04-22 22:25:51" itemprop="dateCreated datePublished" datetime="2018-04-22T22:25:51+08:00">2018-04-22</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2018-04-30 14:54:28" itemprop="dateModified" datetime="2018-04-30T14:54:28+08:00">2018-04-30</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>来源：lightoj1004</p>
+<p>DP水题，正在补前面的题解。</p>
+<p>代码：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cmath&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstring&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> MAXN=<span class="number">210</span>;</span><br><span class="line"><span class="keyword">int</span> a[MAXN][MAXN];</span><br><span class="line"><span class="keyword">long</span> <span class="keyword">long</span> ans[MAXN][MAXN];</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> T,nc=<span class="number">1</span>,n;</span><br><span class="line">	<span class="built_in">scanf</span>(<span class="string">"%d"</span>,&amp;T);</span><br><span class="line">	<span class="keyword">while</span>(T--)&#123;</span><br><span class="line">        <span class="built_in">memset</span>(a,<span class="number">0</span>,<span class="keyword">sizeof</span>(a));</span><br><span class="line">        <span class="built_in">memset</span>(ans,<span class="number">0</span>,<span class="keyword">sizeof</span>(ans));</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">"%d"</span>,&amp;n);</span><br><span class="line">        <span class="keyword">int</span> i,j;</span><br><span class="line">        <span class="keyword">for</span>(i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">            <span class="keyword">for</span>(j=<span class="number">1</span>;j&lt;=i;j++)</span><br><span class="line">                <span class="built_in">scanf</span>(<span class="string">"%d"</span>,&amp;a[i][j]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//cout&lt;&lt;n&lt;&lt;" : "&lt;&lt;i&lt;&lt;endl;</span></span><br><span class="line">        <span class="keyword">for</span>(i=n+<span class="number">1</span>;i&lt;=<span class="number">2</span>*n<span class="number">-1</span>;i++)&#123;</span><br><span class="line">            <span class="keyword">for</span>(j=<span class="number">1</span>;j&lt;=<span class="number">2</span>*n-i;j++)</span><br><span class="line">                <span class="built_in">scanf</span>(<span class="string">"%d"</span>,&amp;a[i][j]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(i=<span class="number">1</span>;i&lt;=n;i++)</span><br><span class="line">        <span class="keyword">for</span>(j=<span class="number">1</span>;j&lt;=i;j++)&#123;</span><br><span class="line">            ans[i][j]=max(ans[i<span class="number">-1</span>][j],ans[i<span class="number">-1</span>][j<span class="number">-1</span>])+a[i][j];<span class="comment">//一直到这一步和数字三角形完全一样</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(i=n+<span class="number">1</span>;i&lt;=<span class="number">2</span>*n<span class="number">-1</span>;i++)</span><br><span class="line">        <span class="keyword">for</span>(j=<span class="number">1</span>;j&lt;=n*<span class="number">2</span>-i;j++)&#123;</span><br><span class="line">            ans[i][j]=max(ans[i<span class="number">-1</span>][j],ans[i<span class="number">-1</span>][j+<span class="number">1</span>])+a[i][j];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"Case %d: %lld\n"</span>,nc++,ans[<span class="number">2</span>*n<span class="number">-1</span>][<span class="number">1</span>]);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/src/uncategorized/POJ-2352&&HDU-1541/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2618,166 +2772,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/src/uncategorized/HDU-5626/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="GeekVitaminC">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="VitaminC的小站">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/src/uncategorized/HDU-5626/" itemprop="url">
-                  HDU-5626
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-
-              
-                
-              
-
-              <time title="Created: 2018-04-22 22:25:26" itemprop="dateCreated datePublished" datetime="2018-04-22T22:25:26+08:00">2018-04-22</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Edited on</span>
-                
-                <time title="Modified: 2018-04-30 14:54:28" itemprop="dateModified" datetime="2018-04-30T14:54:28+08:00">2018-04-30</time>
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>来源：HDU5626</p>
-<p>这个题目很巧妙的相当于没有给测试数据，因为程序要求自己做出模拟的数据，所以要自己写。。。同时，自己出数据计算量将非常大，这个时候只能考虑算法的完全正确了。欢<br>迎大神给出这种情况下给出数据的情况。。。</p>
-<p>然后关键的东西我在注释里面说</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cmath&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">long</span> <span class="keyword">long</span> seed;</span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">long</span> <span class="keyword">long</span> <span class="title">rand</span><span class="params">(<span class="keyword">long</span> <span class="keyword">long</span> l, <span class="keyword">long</span> <span class="keyword">long</span> r)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">static</span> <span class="keyword">long</span> <span class="keyword">long</span> mo=<span class="number">1e9</span>+<span class="number">7</span>, g=<span class="number">78125</span>;</span><br><span class="line">  <span class="keyword">return</span> l+((seed*=g)%=mo)%(r-l+<span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> MAXN=<span class="number">1000100</span>;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Point</span>&#123;</span></span><br><span class="line">    <span class="keyword">long</span> <span class="keyword">long</span> x,y;</span><br><span class="line">&#125;p[MAXN];</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> c;</span><br><span class="line">	<span class="keyword">long</span> <span class="keyword">long</span> n;</span><br><span class="line">	<span class="built_in">scanf</span>(<span class="string">"%d"</span>,&amp;c);</span><br><span class="line">	<span class="keyword">while</span>(c--)&#123;</span><br><span class="line">        <span class="built_in">cin</span> &gt;&gt; n &gt;&gt; seed;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++)<span class="comment">//生成数据的一个过程，这也是这个题目我们咋一看感觉不知道在说什么的原因</span></span><br><span class="line">        &#123;</span><br><span class="line">            p[i].x = rand(<span class="number">-1000000000</span>, <span class="number">1000000000</span>),</span><br><span class="line">            p[i].y = rand(<span class="number">-1000000000</span>, <span class="number">1000000000</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">long</span> <span class="keyword">long</span> maxx=p[<span class="number">0</span>].x+p[<span class="number">0</span>].y;</span><br><span class="line">        <span class="keyword">long</span> <span class="keyword">long</span> minx=p[<span class="number">0</span>].x+p[<span class="number">0</span>].y;</span><br><span class="line">        <span class="keyword">long</span> <span class="keyword">long</span> maxy=p[<span class="number">0</span>].x-p[<span class="number">0</span>].y;</span><br><span class="line">        <span class="keyword">long</span> <span class="keyword">long</span> miny=p[<span class="number">0</span>].x-p[<span class="number">0</span>].y;<span class="comment">//我们对于那个绝对值不等式的式子，我们这样考虑考虑，全部拆开。。。</span></span><br><span class="line">        <span class="keyword">long</span> <span class="keyword">long</span> dux,duy,ans=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;n;i++)&#123;</span><br><span class="line">            dux=p[i].x+p[i].y;<span class="comment">//相当于线性规划一样，做两条线，x+y=k,x-y=k'，我扫一遍，好，记录下来所有直线的距离，下面计算两个对角的两点即可</span></span><br><span class="line">            duy=p[i].x-p[i].y;</span><br><span class="line">            maxx=max(maxx,dux);</span><br><span class="line">            minx=min(minx,dux);</span><br><span class="line">            maxy=max(maxy,duy);</span><br><span class="line">            miny=min(miny,duy);</span><br><span class="line">        &#125;</span><br><span class="line">        ans=max(<span class="built_in">abs</span>(maxx-minx),<span class="built_in">abs</span>(maxy-miny));<span class="comment">//这个就是两条对角线的东西，比较一下就好。</span></span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"%lld\n"</span>,ans);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/12/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><span class="page-number current">13</span><a class="page-number" href="/page/14/">14</a><span class="space">&hellip;</span><a class="page-number" href="/page/19/">19</a><a class="extend next" rel="next" href="/page/14/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/page/12/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><span class="page-number current">13</span><a class="page-number" href="/page/14/">14</a><span class="space">&hellip;</span><a class="page-number" href="/page/20/">20</a><a class="extend next" rel="next" href="/page/14/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -2820,7 +2819,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">190</span>
+                    <span class="site-state-item-count">191</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -3008,7 +3007,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">73</span>
+                      
+                    
+                    <span class="site-state-item-count">74</span>
                     <span class="site-state-item-name">tags</span>
                   </a>
                 </div>
