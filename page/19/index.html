@@ -298,6 +298,186 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/src/web技术/nodejs-教程-1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="GeekVitaminC">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="VitaminC的小站">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/src/web技术/nodejs-教程-1/" itemprop="url">
+                  nodejs 教程(1)
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2017-09-30 01:05:42" itemprop="dateCreated datePublished" datetime="2017-09-30T01:05:42+08:00">2017-09-30</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2018-04-30 14:54:28" itemprop="dateModified" datetime="2018-04-30T14:54:28+08:00">2018-04-30</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/web技术/" itemprop="url" rel="index"><span itemprop="name">web技术</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="Nodejs教程"><a href="#Nodejs教程" class="headerlink" title="Nodejs教程"></a>Nodejs教程</h1><h2 id="回调函数"><a href="#回调函数" class="headerlink" title="回调函数"></a>回调函数</h2><h3 id="使用回掉函数的理由"><a href="#使用回掉函数的理由" class="headerlink" title="使用回掉函数的理由"></a>使用回掉函数的理由</h3><p>为什么要有回调函数，看一个例子：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> fs = <span class="built_in">require</span>(<span class="string">"fs"</span>);</span><br><span class="line"><span class="keyword">var</span> data = fs.readFileSync(<span class="string">'input.txt'</span>);</span><br><span class="line"><span class="built_in">console</span>.log(data.toString());</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">"程序执行结束!"</span>);</span><br></pre></td></tr></table></figure></p>
+<p>这个程序在一般<code>C++</code>中没什么问题，但是在网络应用中就不方便了，所以为了效率起见，我们一般使用下面的非阻塞代码：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> fs = <span class="built_in">require</span>(<span class="string">"fs"</span>);</span><br><span class="line">fs.readFile(<span class="string">'input.txt'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">err, data</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (err) <span class="keyword">return</span> <span class="built_in">console</span>.error(err);</span><br><span class="line">    <span class="built_in">console</span>.log(data.toString());</span><br><span class="line">&#125;);</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">"程序执行结束!"</span>);</span><br></pre></td></tr></table></figure>
+<h3 id="callback-hell"><a href="#callback-hell" class="headerlink" title="callback hell"></a>callback hell</h3><p>但是，一定要注意不要频繁使用回调函数，因为这个东西会使得代码逻辑一片混乱，嵌套过深，可读性和可维护性都非常糟糕。<br>比如下面这个：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">req.models.vote.create(record, funtion(err, result)&#123;</span><br><span class="line">    <span class="comment">// 回调函数B</span></span><br><span class="line">    <span class="keyword">if</span> (err) &#123;</span><br><span class="line">        <span class="comment">// blablabla...</span></span><br><span class="line">        <span class="comment">// 对B执行结果的异常处理</span></span><br><span class="line">    &#125;</span><br><span class="line">    req.models.xxx.find(..,<span class="function"><span class="keyword">function</span>(<span class="params">err,result</span>)</span>&#123;</span><br><span class="line">        <span class="comment">// 回调函数C</span></span><br><span class="line">        <span class="keyword">if</span> (err)&#123;</span><br><span class="line">            <span class="comment">// 对C执行结果的异常处理</span></span><br><span class="line">        &#125;</span><br><span class="line">        req.models.xxx.find(..,<span class="function"><span class="keyword">function</span>(<span class="params">err,result</span>)</span>&#123;</span><br><span class="line">            <span class="comment">// 回调函数D</span></span><br><span class="line">            <span class="keyword">if</span> (err) &#123;..&#125;</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
+<p>这个就是<code>callback hell</code>，但是为了代码的可维护性，于是使用中间件。<br>而很多的模块就是使用中间件进行操作的。这也是模块化的一个重要操作。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 【router.js】</span></span><br><span class="line"><span class="keyword">var</span> test = <span class="built_in">require</span>(<span class="string">'./test.js'</span>)</span><br><span class="line">app.post(<span class="string">'/'</span>,test.a,test.b) ;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 【test.js】</span></span><br><span class="line"><span class="built_in">module</span>.exports.a = <span class="function"><span class="keyword">function</span>(<span class="params">req,res,next</span>)</span>&#123; <span class="comment">//必须有这三个变量</span></span><br><span class="line">    req.models.vote.create(record, funtion(err, result)&#123;</span><br><span class="line">    <span class="comment">// 回调函数B</span></span><br><span class="line">    <span class="keyword">if</span> (err) &#123;</span><br><span class="line">        <span class="comment">// blablabla...</span></span><br><span class="line">        <span class="comment">// 对B执行结果的异常处理</span></span><br><span class="line">        <span class="keyword">return</span> res ; <span class="comment">//返回http请求，不进入下一单元</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 一些非异步的操作..</span></span><br><span class="line">    next() ; </span><br><span class="line">    <span class="comment">// 如果后面还有中间件，则next表示传给下个中间件</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125; ;</span><br><span class="line"><span class="built_in">module</span>.exports.b = <span class="function"><span class="keyword">function</span>(<span class="params">req,res,next</span>)</span>&#123;</span><br><span class="line">    req.models.vote.create(record, funtion(err, result)&#123;</span><br><span class="line">    <span class="comment">// 回调函数B</span></span><br><span class="line">    <span class="keyword">if</span> (err) &#123;</span><br><span class="line">        <span class="comment">// blablabla...</span></span><br><span class="line">        <span class="comment">// 对B执行结果的异常处理</span></span><br><span class="line">        <span class="keyword">return</span> res ; </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 一些非异步的操作..</span></span><br><span class="line">    <span class="keyword">return</span> res ;</span><br><span class="line">    <span class="comment">// 如果是最后一个中间件，则不能有next函数，不然会导致无响应</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125; ;</span><br></pre></td></tr></table></figure></p>
+<h3 id="关于next函数"><a href="#关于next函数" class="headerlink" title="关于next函数"></a>关于next函数</h3><p><a href="http://blog.csdn.net/xyr05288/article/details/51890738" target="_blank" rel="noopener">next函数</a></p>
+<p><code>next()</code>函数主要是用来确保所有注册的中间件被一个接一个的执行，那么我们就应该在所有的中间件中调用next函数，但有一个特例，如果我们定义的中间件终结了本次请求，那就不应该再调用next函数，否则就可能会出问题，我们来看段代码</p>
+<p>(中间件这里先说一下，就是app.use()注册的中间件)<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// next()的内部机制</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">next</span>(<span class="params">err</span>) </span>&#123;</span><br><span class="line">    ... <span class="comment">//此处源码省略</span></span><br><span class="line">    <span class="comment">// find next matching layer</span></span><br><span class="line">    <span class="keyword">var</span> layer;</span><br><span class="line">    <span class="keyword">var</span> match;</span><br><span class="line">    <span class="keyword">var</span> route;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (match !== <span class="literal">true</span> &amp;&amp; idx &lt; stack.length) &#123;</span><br><span class="line">      layer = stack[idx++];</span><br><span class="line">      match = matchLayer(layer, path);</span><br><span class="line">      route = layer.route;</span><br><span class="line"></span><br><span class="line">      <span class="keyword">if</span> (<span class="keyword">typeof</span> match !== <span class="string">'boolean'</span>) &#123;</span><br><span class="line">        <span class="comment">// hold on to layerError</span></span><br><span class="line">        layerError = layerError || match;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      <span class="keyword">if</span> (match !== <span class="literal">true</span>) &#123;</span><br><span class="line">        <span class="keyword">continue</span>;</span><br><span class="line">      &#125;</span><br><span class="line">      ... <span class="comment">//此处源码省略</span></span><br><span class="line">    &#125;</span><br><span class="line">    ... <span class="comment">//此处源码省略</span></span><br><span class="line">    <span class="comment">// this should be done for the layer</span></span><br><span class="line">    <span class="keyword">if</span> (err) &#123;</span><br><span class="line">        layer.handle_error(err, req, res, next);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        layer.handle_request(req, res, next);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="NodeJs-事件循环"><a href="#NodeJs-事件循环" class="headerlink" title="NodeJs 事件循环"></a>NodeJs 事件循环</h2><blockquote>
+<p>下面再说</p>
+</blockquote>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/src/ACM/后缀数组/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2046,7 +2226,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">189</span>
+                    <span class="site-state-item-count">190</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -2232,7 +2412,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">72</span>
+                      
+                    
+                    <span class="site-state-item-count">73</span>
                     <span class="site-state-item-name">tags</span>
                   </a>
                 </div>
@@ -2451,6 +2633,8 @@
 
   
   
+    
+      
     
       
     
